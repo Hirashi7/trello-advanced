@@ -1,0 +1,26 @@
+{
+    "name": "hirashi/trello-adv",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Grzegorz Wójcik",
+            "email": "gwojcik@arkonsoft.pl"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "config/",
+            "core/",
+            "controllers/",
+            "data/",
+            "interfaces/",
+            "models"
+        ],
+        "files": [
+            "defines.php"
+        ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "8"
+    }
+}
