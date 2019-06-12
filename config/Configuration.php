@@ -22,6 +22,7 @@ class Configuration
     public static $assets = [
         'css' => [
             'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' => true,
+            '/views/_layout/assets/style.css' => true,
         ],
         'js' => [
             'https://code.jquery.com/jquery-3.3.1.slim.min.js' => false,

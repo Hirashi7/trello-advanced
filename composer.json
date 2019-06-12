@@ -24,6 +24,7 @@
         "phpunit/phpunit": "8"
     },
     "require": {
-        "netresearch/jsonmapper": "^1.4"
+        "netresearch/jsonmapper": "^1.4",
+        "jakezatecky/array_group_by": "^2.0"
     }
 }

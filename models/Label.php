@@ -23,4 +23,13 @@ class Label extends Model
         ";
         return $sql;
     }
+
+    public static function update($id, $data) {
+        if($id == null) {
+            return false;
+        }
+
+        $request = self::makeRequest("label/{$id}", $data, 'PUT');
+        return $request;
+    }
 }

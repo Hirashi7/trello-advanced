@@ -74,7 +74,4 @@ class ApiTrelloController extends ApiController
 
         return $sql;
     }
-
-
-
 }

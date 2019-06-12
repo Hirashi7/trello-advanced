@@ -15,6 +15,7 @@ abstract class Controller implements ControllerInterface
      */
     public $app;
     public $db;
+    public $messages;
 
     public $data;
 
@@ -27,6 +28,10 @@ abstract class Controller implements ControllerInterface
     {
         $this->app = $app;
         $this->db = $app->db_connection;
+        $this->messages = $app->messages;
+        if(isset($_POST) && sizeof($_POST) > 0){
+            $_POST = $this->filterArray($_POST);
+        }
     }
 
     /**
@@ -72,6 +77,7 @@ abstract class Controller implements ControllerInterface
         foreach ($js as $path => $value) {
             $html .= "<script src=\"{$path}\"></script>\n";
         }
+        \Messages::clear();
         return $html;
     }
 
@@ -94,6 +100,17 @@ abstract class Controller implements ControllerInterface
         require_once VIEWS_DIR . '/_layout/header.php';
         require_once $file_path;
         require_once VIEWS_DIR . '/_layout/footer.php';
+    }
+
+    protected function filterField($data) {
+        $data = trim(htmlspecialchars($data));
+        return $data;
+    }
+    protected function filterArray($data) {
+        foreach ($data as $key => $value) {
+            $data[$key] = $this->filterField($value);
+        }
+        return $data;
     }
 
 }

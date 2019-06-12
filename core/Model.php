@@ -14,18 +14,22 @@ abstract class Model implements ModelInterface
         $this->mapper->bStrictNullTypes = false;
     }
 
-    protected function makeRequest($url) {
+    protected static function makeRequest($url, $data = null, $method = 'GET') {
         $key = API_KEY;
         $token = API_TOKEN;
         $url = "https://api.trello.com/1/{$url}?key={$key}&token={$token}";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $data = curl_exec($ch);
+        if($data != null && $method == 'PUT') {
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+            curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($data));
+        }
+        $request = curl_exec($ch);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-        $data = json_decode($data);
-        return ($httpcode>=200 && $httpcode<300) ? $data : false;
+        $request = json_decode($request);
+        return ($httpcode>=200 && $httpcode<300) ? $request : false;
     }
 
     protected function get($requestUrl, $class): ?array {

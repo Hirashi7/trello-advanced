@@ -9,6 +9,9 @@ define('API_TOKEN', 'fae124d38f4a70193b073be6d72358a228c8129fd9cdf68f7a5181ff6ab
 
 require "vendor/autoload.php";
 
-$app = new App(new DbConnection());
+session_start();
+session_regenerate_id();
+
+$app = new App(new DbConnection(), null, new Messages());
 
 $bootstrap = new Bootstrap($app, new Router());
