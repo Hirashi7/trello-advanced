@@ -12,7 +12,7 @@ class DbConnection implements DbConnectionInterface
       $port = '3306';
       $username = 'root';
       $password = '';
-      $database = '';
+      $database = 'trello';
       
         try{
             $pdo = new PDO('mysql:host='.$mysql_host.';dbname='.$database.';port='.$port,

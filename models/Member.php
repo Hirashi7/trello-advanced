@@ -5,8 +5,12 @@ class Member extends Model {
     public $id;
 
     public function getBoards(): ?array {
-        $boards = $this->makeRequest('members/me/boards');
-        $boards = $this->mapper->mapArray($boards, [], 'Board');
-        return sizeof($boards) > 0 ? $boards : null;
+        $request = $this->makeRequest('members/me/boards');
+        $boards = [];
+        foreach ($request as $item) {
+            $boards[] = $this->mapper->map($item, new Board());
+        }
+
+        return $boards;
     }
 }

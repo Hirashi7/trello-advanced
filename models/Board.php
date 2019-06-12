@@ -2,21 +2,77 @@
 use Core\Model;
 
 class Board extends Model {
+    /**
+     * @var string
+     */
     public $id;
-    public $name;
-    public $cards;
-    public $lists;
-    public $labels;
 
-    public function getCards(): array {
-        // TODO
+    /**
+     * @var string
+     */
+    public $name;
+
+    /**
+     * @var string
+     */
+    public $desc;
+
+    /**
+     * @var string
+     */
+    public $url;
+
+    /**
+     * @var string
+     */
+    public $dateLastActivity;
+
+    /**
+     * @return Card[]
+     */
+    public function getCards(): ?array {
+        return $this->get("boards/{$this->id}/cards", Card::class);
     }
-    
-    public static function filterBoardByName(array $boards, string $name): ?Board {
-        $board = array_filter($boards, function($el) use ($name) {
-            return $el->name === $name;
-        } );
-        $board = array_values($board);
-        return sizeof($board) > 0 ? $board[0] : null;
+
+    /**
+     * @return BoardList[]
+     */
+    public function getLists(): ?array {
+        return $this->get("boards/{$this->id}/lists", BoardList::class);
+    }
+
+    /**
+     * @return Label[]
+     */
+    public function getLabels(): ?array {
+        return $this->get("boards/{$this->id}/labels", Label::class);
+    }
+
+    public function getSaveSql() {
+        $sql = "
+            INSERT INTO boards 
+            (id, name, description, url, dateLastActivity) 
+            VALUES (
+                '{$this->id}',
+                '{$this->name}',
+                '{$this->desc}',
+                '{$this->url}',
+                '{$this->dateLastActivity}'
+            ) ON DUPLICATE KEY UPDATE 
+                name = '{$this->name}',
+                description = '{$this->desc}',
+                url = '{$this->url}',
+                dateLastActivity = '{$this->dateLastActivity}';
+        ";
+        return $sql;
+    }
+
+    /**
+     * @param array $boards
+     * @param string $name
+     * @return Board[]|null
+     */
+    public static function filterByName(array $boards, string $name): ?array {
+        return self::filterBy($boards, ['name' => $name]);
     }
 }
