@@ -1,25 +1,7 @@
-<?php
-    $colors = [
-        'red' => 'Czerwony',
-        'orange' => 'Pomarańczowy',
-        'green' => 'Zielony',
-        'yellow' => 'Żółty',
-        'purple' => 'Fioletowy',
-        'blue' => 'Niebieski'
-    ];
-?>
 <form action="" method="POST">
     <div class="form-group">
         <label>Nazwa</label>
         <input type="text" name="name" class="form-control" value="<?= $this->data->name;?>" required>
-    </div>
-    <div class="form-group">
-        <label>Kolor</label>
-        <select name="color" value="<?= $this->data->color;?>" required class="form-control">
-            <?php foreach ($colors as $key => $color): ?>
-                <option value="<?= $key;?>" <?php if($key == $this->data->color) echo 'selected'; ?>><?= $color;?></option>
-            <?php endforeach;?>
-        </select>
     </div>
     <div class="form-group">
         <label>Tablica</label>
