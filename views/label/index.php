@@ -16,6 +16,7 @@
                     <tr>
                         <th class="text-muted">#</th>
                         <th>Nazwa</th>
+                        <th>Kolor</th>
                         <th>Tablica</th>
                         <th></th>
                     </tr>
@@ -27,6 +28,7 @@
                         <tr>
                             <td class="text-muted"><?= $counter; ?></td>
                             <td><?= $item->name; ?></td>
+                            <td><?= $item->color; ?></td>
                             <td><a href="/board/view/<?= $item->boardId; ?>"><?= $item->boardName; ?></a></td>
                             <td class="text-right"><div class="btn-group">
                                 <a href="/label/view/<?= $item->id; ?>" class="btn btn-primary">Zobacz</a>

@@ -6,7 +6,7 @@ class BoardList extends Model {
     public $id;
     public $name;
 
-    public function getSaveSql() {
+    public function updateDb() {
         $sql = "
             INSERT INTO lists 
             (id, name) 
@@ -17,6 +17,7 @@ class BoardList extends Model {
                 id = '{$this->id}',
                 name = '{$this->name}';
         ";
-        return $sql;
+        $request = $this->db->insert($sql);
+        return $request;
     }
 }

@@ -48,7 +48,7 @@ class Board extends Model {
         return $this->get("boards/{$this->id}/labels", Label::class);
     }
 
-    public function getSaveSql() {
+    public function updateDb() {
         $sql = "
             INSERT INTO boards 
             (id, name, description, url, dateLastActivity) 
@@ -64,7 +64,8 @@ class Board extends Model {
                 url = '{$this->url}',
                 dateLastActivity = '{$this->dateLastActivity}';
         ";
-        return $sql;
+        $request = $this->db->insert($sql);
+        return $request;
     }
 
     /**

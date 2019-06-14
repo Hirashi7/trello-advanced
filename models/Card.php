@@ -13,7 +13,7 @@ class Card extends Model {
     public $due;
     public $idMembers;
 
-    public function getSaveSql() {
+    public function updateDb() {
         $sql = "
         DELETE FROM cards_has_labels
         WHERE cards_id = '{$this->id}';
@@ -46,6 +46,8 @@ class Card extends Model {
             ";
         }
 
-        return $sql;
+        $result = $this->db->insert($sql);
+
+        return $result;
     }
 }
