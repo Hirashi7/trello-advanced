@@ -23,7 +23,7 @@ class LabelController extends Controller {
             exit;
         }
         $sql = "
-            SELECT labels.id as id, labels.name as name, labels.color as color boards.id as idBoard
+            SELECT labels.id as id, labels.name as name, labels.color as color, boards.id as idBoard
             FROM labels 
             INNER JOIN boards
             ON boards.id = labels.idBoard

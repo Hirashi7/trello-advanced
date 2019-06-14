@@ -29,7 +29,7 @@
                             <td class="text-muted"><?= $counter; ?></td>
                             <td><?= $item->name; ?></td>
                             <td><?= $item->color; ?></td>
-                            <td><a href="/board/view/<?= $item->boardId; ?>"><?= $item->boardName; ?></a></td>
+                            <td><?= $item->boardName; ?></td>
                             <td class="text-right"><div class="btn-group">
                                 <a href="/label/view/<?= $item->id; ?>" class="btn btn-primary">Zobacz</a>
                                 <a href="/label/edit/<?= $item->id; ?>" class="btn btn-warning">Edytuj</a>

@@ -21,6 +21,10 @@
                     <td><?= $this->data->name; ?></td>
                 </tr>
                 <tr>
+                    <th>Kolor:</th>
+                    <td><?= $this->data->color; ?></td>
+                </tr>
+                <tr>
                     <td colspan="2" class="text-right">
                         <a href="/label/edit/<?= $this->data->id; ?>" class="btn btn-warning">Edytuj</a>
                         <a href="/label/delete/<?= $this->data->id; ?>" class="btn btn-danger">Usuń</a>
