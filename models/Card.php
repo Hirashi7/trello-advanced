@@ -2,15 +2,15 @@
 use Core\Model;
 
 class Card extends Model {
-    public $id;
-    public $name;
-    public $desc;
-    public $idBoard;
-    public $idList;
-    public $idLabels;
-    public $labels;
-    public $url;
-    public $due;
+    public $id = '';
+    public $name = '';
+    public $desc = '';
+    public $idBoard = '';
+    public $idList = '';
+    public $idLabels = [];
+    public $labels = [];
+    public $url = '';
+    public $due = '';
     public $idMembers;
 
     public function updateDb() {
@@ -49,5 +49,51 @@ class Card extends Model {
         $result = $this->db->insert($sql);
 
         return $result;
+    }
+
+    public static function update($id, $data) {
+        if($id == null || $data == null || empty($data)) {
+            return false;
+        }
+
+        $trelloSave = self::makeRequest("cards/{$id}", $data, 'PUT');
+        if($trelloSave === false) return false;
+
+        $object = self::get("cards/{$id}");
+        $dbSave = $object->updateDb();
+
+        return $trelloSave && $dbSave;
+    }
+
+    public static function add($data) {
+        if($data == null || empty($data)) {
+            return false;
+        }
+
+        $trelloSave = self::makeRequest('cards', $data, 'POST');
+        if($trelloSave === false) return false;
+
+        $object = self::get("cards/{$trelloSave->id}");
+        $dbSave = $object->updateDb();
+
+        return $trelloSave && $dbSave;
+
+    }
+
+    public static function delete($id) {
+        if ($id == null || empty($id)) {
+            return false;
+        }
+        $delete = self::makeRequest("cards/{$id}", null, "DELETE");
+        if ($delete === false) return false;
+        $object = new Card();
+
+        $sql = "
+            DELETE FROM cards_has_labels
+            WHERE cards_id = '{$id}';
+            DELETE FROM cards WHERE id = '{$id}';
+        ";
+
+        return $object->db->delete($sql);
     }
 }

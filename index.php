@@ -1,4 +1,13 @@
 <?php
+
+function var_dump_pre($mixed = null) {
+    echo '<pre>';
+    var_dump($mixed);
+    echo '</pre>';
+    return null;
+  }
+
+  
 error_reporting(E_ALL);
 ini_set('display_errors', 'on');
 
@@ -15,3 +24,4 @@ session_regenerate_id();
 $app = new App(new DbConnection(), null, new Messages());
 
 $bootstrap = new Bootstrap($app, new Router());
+

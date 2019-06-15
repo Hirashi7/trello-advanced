@@ -45,7 +45,7 @@ abstract class Model implements ModelInterface
         }
 
         $request = curl_exec($ch);
-        var_dump($request);
+        var_dump_pre($request);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         $request = json_decode($request);

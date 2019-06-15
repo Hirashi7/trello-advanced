@@ -90,7 +90,6 @@ class ListController extends Controller {
 
     public function deleteAction($id) {
        $request = BoardList::delete($id);
-       var_dump($request);
        if($request){
             $this->messages->push('Sukces! Rekord usunięty poprawnie.', 'success');
        } else {

@@ -103,6 +103,9 @@ abstract class Controller implements ControllerInterface
     }
 
     protected function filterField($data) {
+        if(is_array($data)) {
+            return $this->filterArray($data);
+        }
         $data = trim(htmlspecialchars($data));
         return $data;
     }

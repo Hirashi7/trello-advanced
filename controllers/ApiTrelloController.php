@@ -9,7 +9,6 @@ class ApiTrelloController extends ApiController
         $member = new Member();
         $board = Board::filterByName($member->getBoards(), 'Projekt IT')[0];
         $lists = $board->getLists();
-        var_dump($lists);
         $labels = $board->getLabels();
         $cards = $board->getCards();
         $board->updateDb();

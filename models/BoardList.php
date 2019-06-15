@@ -67,7 +67,6 @@ class BoardList extends Model {
         $sql = "
             DELETE FROM lists WHERE id = '{$id}';
         ";
-        var_dump($object->db->delete($sql));
-        return true;
+        return $object->db->delete($sql);
     }
 }
