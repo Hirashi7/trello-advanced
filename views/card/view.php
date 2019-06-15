@@ -4,7 +4,7 @@
         <h1>Zadania - <strong><?= $this->data->name; ?></strong></h1>
         <nav class="breadcrumb">
             <a class="breadcrumb-item" href="/">Strona główna</a>
-            <a class="breadcrumb-item" href="/label">Zadania</a>
+            <a class="breadcrumb-item" href="/card">Zadania</a>
             <span class="breadcrumb-item active"><?= $this->data->name; ?></span>
         </nav>
         </div>

@@ -25,6 +25,7 @@
     },
     "require": {
         "netresearch/jsonmapper": "^1.4",
-        "jakezatecky/array_group_by": "^2.0"
+        "jakezatecky/array_group_by": "^2.0",
+        "facebook/graph-sdk": "^5.7"
     }
 }
