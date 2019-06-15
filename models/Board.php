@@ -67,13 +67,4 @@ class Board extends Model {
         $request = $this->db->insert($sql);
         return $request;
     }
-
-    /**
-     * @param array $boards
-     * @param string $name
-     * @return Board[]|null
-     */
-    public static function filterByName(array $boards, string $name): ?array {
-        return self::filterBy($boards, ['name' => $name]);
-    }
 }

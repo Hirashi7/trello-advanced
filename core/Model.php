@@ -17,7 +17,7 @@ abstract class Model implements ModelInterface
         $this->db = new \DbConnection();
     }
 
-    protected static function makeRequest($url, $data = null, $method = 'GET') {
+    public static function makeRequest($url, $data = null, $method = 'GET') {
         $key = API_KEY;
         $token = API_TOKEN;
         $url = "https://api.trello.com/1/{$url}?key={$key}&token={$token}";
@@ -45,7 +45,6 @@ abstract class Model implements ModelInterface
         }
 
         $request = curl_exec($ch);
-        var_dump_pre($request);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         $request = json_decode($request);
@@ -96,6 +95,10 @@ abstract class Model implements ModelInterface
         }
 
         return $filtered;
+    }
+
+    public static function filterByName(array $items, string $name): ?array {
+        return self::filterBy($items, ['name' => $name]);
     }
 
     // public static function map($data) {
