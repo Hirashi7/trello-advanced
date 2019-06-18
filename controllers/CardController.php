@@ -2,6 +2,9 @@
 use Core\Controller;
 
 class CardController extends Controller {
+    /**
+     * @throws Exception
+     */
     public function indexAction() {
         $sql = "
         SELECT
@@ -46,6 +49,10 @@ class CardController extends Controller {
         $this->render('index', $items);
     }
 
+    /**
+     * @param $id
+     * @throws Exception
+     */
     public function viewAction($id) {
         if($id == null || empty($id)){
             header('location: /card');
@@ -97,6 +104,10 @@ class CardController extends Controller {
         $this->render('view', $items[0]);
     }
 
+    /**
+     * @param $id
+     * @throws Exception
+     */
     public function editAction($id) {
         if($id == null || empty($id)){
             header('location: /card');
@@ -192,6 +203,9 @@ class CardController extends Controller {
         $this->render('edit',  $data[0]);
     }
 
+    /**
+     * @throws Exception
+     */
     public function addAction() {
         if(isset($_POST['submit'])) {
             $update = Card::add($_POST);
@@ -237,6 +251,9 @@ class CardController extends Controller {
         $this->render('add',  $data);
     }
 
+    /**
+     * @param $id
+     */
     public function deleteAction($id) {
        $request = Card::delete($id);
        if($request){

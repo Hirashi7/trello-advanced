@@ -5,10 +5,16 @@ use Core\ApiController;
 class ApiTrelloController extends ApiController
 {
 
+    /**
+     * Index action for routing
+     */
     public function index() {
         echo 'Trello Api';
     }
 
+    /**
+     * Truncate tables and fetch data from trello api
+     */
     public function fetch() {
         $this->db->delete("
             SET FOREIGN_KEY_CHECKS = 0; 
@@ -19,26 +25,33 @@ class ApiTrelloController extends ApiController
             TRUNCATE TABLE boards;
             SET FOREIGN_KEY_CHECKS = 1; 
         ");
+        // get board by user
         $member = new Member();
+        // get only one board, filtered by name
         $board = Board::filterByName($member->getBoards(), 'Projekt IT')[0];
+
+        //get list, labels and cards
         $lists = $board->getLists();
         $labels = $board->getLabels();
         $cards = $board->getCards();
         $board->updateDb();
 
+        // run each model save methods
         foreach ($lists as $item) {
             $item->updateDb();
         }
-
         foreach ($labels as $item) {
             $item->updateDb();
         }
-
         foreach ($cards as $item) {
             $item->updateDb();
         }
     }
-    
+
+    /**
+     * Moves to other lists and parses task names by defined rules in method
+     * @throws Exception
+     */
     public function automate() {
         $member = new Member();
         $board = Board::filterByName($member->getBoards(), 'Projekt IT')[0];
@@ -46,16 +59,20 @@ class ApiTrelloController extends ApiController
         $labels = $board->getLabels();
         $cards = $board->getCards();
 
+        // get exact labels for rules
         $supporLabel = Label::filterByName($labels, 'Opieka')[0];
         $warrantyLabel = Label::filterByName($labels, 'Gwarancja')[0];
+        // get exact lists for rules
         $backlogList = BoardList::filterByName($lists, 'BACKLOG')[0];
         $todoList = BoardList::filterByName($lists, 'DO ZROBIENIA')[0];
 
         foreach ($cards as $card) {
+            // continue loop only if card is in BACKLOG list
             if($card->idList !== $backlogList->id){
                 continue;
             }
-            
+
+            //setting flags of OPIEKA and GWARANCJA labels
             $labelFlag = false;
             $warrantyFlag = false;
             foreach ($card->idLabels as $label) {
@@ -70,7 +87,7 @@ class ApiTrelloController extends ApiController
             $name = $card->name;
             $due = $card->due;
             $time = null;
-
+            // parsing data provided in card name, e.g. "Task number 345 {+2d}" will set "due date" to 2 days from now
             if((strpos($name, "{") && strpos($name, "}")) && (strpos($name, "}") > strpos($name, "{"))){
                 $timeStart = strpos($name, "{") + 1;
                 $timeLength = strpos($name, "}") - $timeStart;
@@ -80,7 +97,6 @@ class ApiTrelloController extends ApiController
                 $time = intval($time);
            }
 
-            // opieka/gwarancja + brak daty + brak definicji czasu
            if(($labelFlag || $warrantyFlag) && $due == null && $time == null) {
             $daysOffset = 2;
             $dayOfWeek = intval(date('w'));
@@ -90,14 +106,13 @@ class ApiTrelloController extends ApiController
             $due = $due->format(DateTime::ATOM);
            }
 
-           // inne + brak daty + brak definicji czasu
            if(!$labelFlag && $due == null && $time == null){
             $due = new DateTime();
             $due = $due->modify("+14 days");
             $due = $due->format(DateTime::ATOM);
            }
 
-           // cokolwiek + brak daty + definicja czasu
+
            if($due == null && $time != null) {
             $daysOffset = $time;
             $dayOfWeek = intval(date('w'));
@@ -107,6 +122,7 @@ class ApiTrelloController extends ApiController
             $due = $due->format(DateTime::ATOM);
            }
 
+           // save card to trello
            if($labelFlag || $warrantyFlag){
             Card::makeRequest("cards/{$card->id}", [
                 'name' => $name,
@@ -123,8 +139,11 @@ class ApiTrelloController extends ApiController
             
             
         }
-    } 
+    }
 
+    /**
+     * Adding numbers to tasks name, eg. [#44]"
+     */
     public function indexTasks() {
         $member = new Member();
         $board = Board::filterByName($member->getBoards(), 'Projekt IT')[0];
@@ -160,6 +179,9 @@ class ApiTrelloController extends ApiController
         }
     }
 
+    /**
+     * Remove numbers from tasks name
+     */
     public function unindexTasks() {
         $member = new Member();
         $board = Board::filterByName($member->getBoards(), 'Projekt IT')[0];

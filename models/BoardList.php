@@ -7,6 +7,9 @@ class BoardList extends Model {
     public $name;
     public $idBoard;
 
+    /**
+     * @return bool
+     */
     public function updateDb() {
         $sql = "
             INSERT INTO lists 

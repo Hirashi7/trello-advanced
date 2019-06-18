@@ -2,6 +2,9 @@
 use Core\Controller;
 
 class ListController extends Controller {
+    /**
+     * @throws Exception
+     */
     public function indexAction() {
         $sql = "
             SELECT *

@@ -2,6 +2,9 @@
 use Core\Controller;
 
 class LabelController extends Controller {
+    /**
+     * @throws Exception
+     */
     public function indexAction() {
         $sql = "
             SELECT labels.id as id, labels.name as name, labels.color as color, labels.idBoard as idBoard, boards.name as boardName

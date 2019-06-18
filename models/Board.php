@@ -48,6 +48,9 @@ class Board extends Model {
         return $this->get("boards/{$this->id}/labels", Label::class);
     }
 
+    /**
+     * @return bool
+     */
     public function updateDb() {
         $sql = "
             INSERT INTO boards 

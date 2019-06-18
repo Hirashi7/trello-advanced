@@ -13,6 +13,7 @@ class Card extends Model {
     public $due = '';
     public $idMembers;
 
+
     public function updateDb() {
         $sql = "
         DELETE FROM cards_has_labels

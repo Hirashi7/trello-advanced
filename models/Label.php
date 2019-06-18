@@ -10,6 +10,9 @@ class Label extends Model
     public $idBoard = '';
     public $boards = [];
 
+    /**
+     * @return bool
+     */
     public function updateDb() {
         $sql = "
             INSERT INTO labels 
